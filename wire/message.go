@@ -182,6 +182,12 @@ func makeEmptyMessage(command string) (Message, error) {
 	case CmdCFCheckpt:
 		msg = &MsgCFCheckpt{}
 
+	case CmdAddrV2:
+		msg = &MsgAddrV2{}
+
+	case CmdCmpct:
+		msg = &MsgUnknown{}
+
 	default:
 		return nil, fmt.Errorf("unhandled command [%s]", command)
 	}
