@@ -855,7 +855,7 @@ func TestCalcSignatureHash(t *testing.T) {
 		}
 
 		subScript, _ := hex.DecodeString(test[1].(string))
-		parsedScript, err := parseScript(subScript)
+		parsedScript, err := ParseScript(subScript)
 		if err != nil {
 			t.Errorf("TestCalcSignatureHash failed test #%d: "+
 				"Failed to parse sub-script: %v", i, err)

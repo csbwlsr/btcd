@@ -22,7 +22,7 @@ func RawTxInWitnessSignature(tx *wire.MsgTx, sigHashes *TxSigHashes, idx int,
 	amt int64, subScript []byte, hashType SigHashType,
 	key *btcec.PrivateKey) ([]byte, error) {
 
-	parsedScript, err := parseScript(subScript)
+	parsedScript, err := ParseScript(subScript)
 	if err != nil {
 		return nil, fmt.Errorf("cannot parse output script: %v", err)
 	}
@@ -230,11 +230,11 @@ func mergeScripts(chainParams *chaincfg.Params, tx *wire.MsgTx, idx int,
 	case ScriptHashTy:
 		// Remove the last push in the script and then recurse.
 		// this could be a lot less inefficient.
-		sigPops, err := parseScript(sigScript)
+		sigPops, err := ParseScript(sigScript)
 		if err != nil || len(sigPops) == 0 {
 			return prevScript
 		}
-		prevPops, err := parseScript(prevScript)
+		prevPops, err := ParseScript(prevScript)
 		if err != nil || len(prevPops) == 0 {
 			return sigScript
 		}
@@ -291,14 +291,14 @@ func mergeMultiSig(tx *wire.MsgTx, idx int, addresses []btcutil.Address,
 	// This is an internal only function and we already parsed this script
 	// as ok for multisig (this is how we got here), so if this fails then
 	// all assumptions are broken and who knows which way is up?
-	pkPops, _ := parseScript(pkScript)
+	pkPops, _ := ParseScript(pkScript)
 
-	sigPops, err := parseScript(sigScript)
+	sigPops, err := ParseScript(sigScript)
 	if err != nil || len(sigPops) == 0 {
 		return prevScript
 	}
 
-	prevPops, err := parseScript(prevScript)
+	prevPops, err := ParseScript(prevScript)
 	if err != nil || len(prevPops) == 0 {
 		return sigScript
 	}

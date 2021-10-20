@@ -269,7 +269,7 @@ func (vm *Engine) verifyWitnessProgram(witness [][]byte) error {
 			if err != nil {
 				return err
 			}
-			pops, err := parseScript(pkScript)
+			pops, err := ParseScript(pkScript)
 			if err != nil {
 				return err
 			}
@@ -310,7 +310,7 @@ func (vm *Engine) verifyWitnessProgram(witness [][]byte) error {
 			// With all the validity checks passed, parse the
 			// script into individual op-codes so w can execute it
 			// as the next script.
-			pops, err := parseScript(witnessScript)
+			pops, err := ParseScript(witnessScript)
 			if err != nil {
 				return err
 			}
@@ -492,7 +492,7 @@ func (vm *Engine) Step() (done bool, err error) {
 			}
 
 			script := vm.savedFirstStack[len(vm.savedFirstStack)-1]
-			pops, err := parseScript(script)
+			pops, err := ParseScript(script)
 			if err != nil {
 				return false, err
 			}
@@ -910,7 +910,7 @@ func NewEngine(scriptPubKey []byte, tx *wire.MsgTx, txIdx int, flags ScriptFlags
 			return nil, scriptError(ErrScriptTooBig, str)
 		}
 		var err error
-		vm.scripts[i], err = parseScript(scr)
+		vm.scripts[i], err = ParseScript(scr)
 		if err != nil {
 			return nil, err
 		}
