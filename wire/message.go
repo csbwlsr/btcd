@@ -57,8 +57,11 @@ const (
 	CmdCFilter      = "cfilter"
 	CmdCFHeaders    = "cfheaders"
 	CmdCFCheckpt    = "cfcheckpt"
-	CmdAddrV2       = "addrv2"
-	CmdCmpct        = "sendcmpct"
+	CmdAddrV2    = "addrv2"
+	CmdSendCmpct = "sendcmpct"
+	CmdCmpctBlock = "cmpctblock"
+	CmdBlockTxn   = "blocktxn"
+	CmdGetBlockTxn = "getblocktxn"
 )
 
 // MessageEncoding represents the wire message encoding format to be used.
@@ -185,8 +188,17 @@ func makeEmptyMessage(command string) (Message, error) {
 	case CmdAddrV2:
 		msg = &MsgAddrV2{}
 
-	case CmdCmpct:
-		msg = &MsgUnknown{}
+	case CmdSendCmpct:
+		msg = &MsgSendCmpct{}
+
+	case CmdCmpctBlock:
+		msg = &MsgCmpctBlock{}
+
+	case CmdGetBlockTxn:
+		msg = &MsgGetBlockTxn{}
+
+	case CmdBlockTxn:
+		msg = &MsgBlockTxn{}
 
 	default:
 		return nil, fmt.Errorf("unhandled command [%s]", command)
